@@ -61,7 +61,6 @@ body {
   font-size: 18px;
   padding: 6px 10px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 .scroll-btn:hover {
@@ -100,7 +99,6 @@ body {
   border: 1px solid orange;
   border-radius: 6px;
   flex-shrink: 0;
-  transition: 0.3s;
 }
 
 .page-numbers a:hover {
@@ -126,7 +124,7 @@ body {
 
 /* ===== Footer ===== */
 .footer {
-  background: #0D1B3D;  /* Dark Blue */
+  background: #0D1B3D;
   color: white;
   text-align: center;
   padding: 18px;
@@ -172,8 +170,12 @@ const totalPages = 143;
 const contentDiv = document.getElementById("content");
 const paginationDiv = document.getElementById("pagination");
 
-let page = new URLSearchParams(window.location.search).get("page") || 1;
-page = parseInt(page);
+/* ===== Get Page Number ===== */
+let pageParam = new URLSearchParams(window.location.search).get("page");
+let page = pageParam ? parseInt(pageParam) : 1;
+
+if (isNaN(page) || page < 1) page = 1;
+if (page > totalPages) page = totalPages;
 
 /* ===== Load Page Content ===== */
 function loadPage(pageNumber) {
@@ -211,16 +213,16 @@ function scrollPages(distance) {
   });
 }
 
-/* ===== Center Active Page ===== */
-window.onload = function() {
+/* ===== Auto Load Page ===== */
+document.addEventListener("DOMContentLoaded", function () {
   loadPage(page);
 
   const active = document.querySelector(".active");
   if (active) {
     const offset = active.offsetLeft - (paginationDiv.offsetWidth / 2) + (active.offsetWidth / 2);
-    paginationDiv.scrollTo({ left: offset, behavior: "instant" });
+    paginationDiv.scrollTo({ left: offset });
   }
-};
+});
 
 </script>
 
