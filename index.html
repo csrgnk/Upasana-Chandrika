@@ -6,6 +6,8 @@
 <title>Upasana Chandrika</title>
 
 <style>
+
+/* ===== Body ===== */
 body {
   font-family: 'Noto Sans Telugu', sans-serif;
   background-color: #FFFDF7;
@@ -24,11 +26,12 @@ body {
   font-weight: bold;
 }
 
-/* Highlight Box */
+/* ===== Highlight Box ===== */
 .highlight-box-wrapper {
   text-align: center;
   margin-top: 20px;
 }
+
 .highlight-box {
   display: inline-block;
   background: linear-gradient(90deg, #FFA726, #FFB74D);
@@ -37,30 +40,80 @@ body {
   border-radius: 30px;
   font-size: 22px;
   font-weight: bold;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
-/* Page Numbers */
+/* ===== Scroll Pagination ===== */
+.page-scroll-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  max-width: 95%;
+  gap: 5px;
+}
+
+.scroll-btn {
+  background-color: orange;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.scroll-btn:hover {
+  background-color: #e65c00;
+}
+
 .page-numbers {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
   gap: 6px;
-  margin: 20px;
+  padding: 8px;
+  max-width: 80%;
+  background: #FFFDE7;
+  border-radius: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: orange #FFFDE7;
 }
+
+.page-numbers::-webkit-scrollbar {
+  height: 6px;
+}
+
+.page-numbers::-webkit-scrollbar-thumb {
+  background: orange;
+  border-radius: 3px;
+}
+
 .page-numbers a {
+  display: inline-block;
   padding: 6px 12px;
   text-decoration: none;
   color: orange;
   font-weight: bold;
   border: 1px solid orange;
   border-radius: 6px;
+  flex-shrink: 0;
+  transition: 0.3s;
 }
+
+.page-numbers a:hover {
+  background: orange;
+  color: white;
+}
+
 .page-numbers a.active {
   background: orange;
   color: white;
 }
 
-/* Content */
+/* ===== Content ===== */
 .content {
   max-width: 800px;
   margin: 20px auto;
@@ -71,41 +124,50 @@ body {
   font-size: 18px;
 }
 
-/* Footer */
+/* ===== Footer ===== */
 .footer {
-  background: #0D1B3D;   /* Dark Blue */
+  background: #0D1B3D;  /* Dark Blue */
   color: white;
   text-align: center;
-  padding: 15px;
+  padding: 18px;
   margin-top: 30px;
   font-size: 14px;
 }
+
 </style>
 </head>
 
 <body>
 
+<!-- Header -->
 <div class="header">
   Namo Narayanaya Bhakthi Channel
 </div>
 
+<!-- Title -->
 <div class="highlight-box-wrapper">
   <h2 class="highlight-box">Upasana Chandrika</h2>
 </div>
 
-<!-- Page Numbers -->
-<div class="page-numbers" id="pagination"></div>
+<!-- Pagination -->
+<div class="page-scroll-wrapper">
+  <button class="scroll-btn" onclick="scrollPages(-200)">&#9664;</button>
+  <div class="page-numbers" id="pagination"></div>
+  <button class="scroll-btn" onclick="scrollPages(200)">&#9654;</button>
+</div>
 
-<!-- Content Area -->
+<!-- Content -->
 <div class="content" id="content">
   Loading content...
 </div>
 
+<!-- Footer -->
 <div class="footer">
   © 2026 Namo Narayanaya Bhakthi Channel | All Rights Reserved
 </div>
 
 <script>
+
 const totalPages = 143;
 const contentDiv = document.getElementById("content");
 const paginationDiv = document.getElementById("pagination");
@@ -113,7 +175,7 @@ const paginationDiv = document.getElementById("pagination");
 let page = new URLSearchParams(window.location.search).get("page") || 1;
 page = parseInt(page);
 
-// Load content from separate html file
+/* ===== Load Page Content ===== */
 function loadPage(pageNumber) {
   fetch("pages/page" + pageNumber + ".html")
     .then(response => {
@@ -128,18 +190,38 @@ function loadPage(pageNumber) {
     });
 }
 
-function createPagination() {
-  for (let i = 1; i <= totalPages; i++) {
-    const link = document.createElement("a");
-    link.href = "?page=" + i;
-    link.innerText = i;
-    if (i === page) link.classList.add("active");
-    paginationDiv.appendChild(link);
+/* ===== Create Pagination ===== */
+for (let i = 1; i <= totalPages; i++) {
+  const link = document.createElement("a");
+  link.href = "?page=" + i;
+  link.innerText = i;
+
+  if (i === page) {
+    link.classList.add("active");
   }
+
+  paginationDiv.appendChild(link);
 }
 
-loadPage(page);
-createPagination();
+/* ===== Scroll Buttons ===== */
+function scrollPages(distance) {
+  paginationDiv.scrollBy({
+    left: distance,
+    behavior: "smooth"
+  });
+}
+
+/* ===== Center Active Page ===== */
+window.onload = function() {
+  loadPage(page);
+
+  const active = document.querySelector(".active");
+  if (active) {
+    const offset = active.offsetLeft - (paginationDiv.offsetWidth / 2) + (active.offsetWidth / 2);
+    paginationDiv.scrollTo({ left: offset, behavior: "instant" });
+  }
+};
+
 </script>
 
 </body>
