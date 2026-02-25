@@ -122,6 +122,28 @@ body {
   font-size: 18px;
 }
 
+/* ===== Prev / Next Navigation ===== */
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  max-width: 500px;
+  margin: 25px auto;
+}
+
+.navigation a {
+  background-color: orange;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.navigation a:hover {
+  background-color: #e65c00;
+}
+
 /* ===== Footer ===== */
 .footer {
   background: #0D1B3D;
@@ -159,6 +181,9 @@ body {
   Loading content...
 </div>
 
+<!-- Prev / Next -->
+<div class="navigation" id="navigation"></div>
+
 <!-- Footer -->
 <div class="footer">
   © 2026 Namo Narayanaya Bhakthi Channel | All Rights Reserved
@@ -169,6 +194,7 @@ body {
 const totalPages = 143;
 const contentDiv = document.getElementById("content");
 const paginationDiv = document.getElementById("pagination");
+const navigationDiv = document.getElementById("navigation");
 
 /* ===== Get Page Number ===== */
 let pageParam = new URLSearchParams(window.location.search).get("page");
@@ -186,13 +212,14 @@ function loadPage(pageNumber) {
     })
     .then(data => {
       contentDiv.innerHTML = data;
+      createNavigation();
     })
     .catch(() => {
       contentDiv.innerHTML = "<h3>Content not found.</h3>";
     });
 }
 
-/* ===== Create Pagination ===== */
+/* ===== Create Pagination Numbers ===== */
 for (let i = 1; i <= totalPages; i++) {
   const link = document.createElement("a");
   link.href = "?page=" + i;
@@ -211,6 +238,21 @@ function scrollPages(distance) {
     left: distance,
     behavior: "smooth"
   });
+}
+
+/* ===== Create Prev / Next Buttons ===== */
+function createNavigation() {
+  navigationDiv.innerHTML = "";
+
+  if (page > 1) {
+    navigationDiv.innerHTML += `<a href="?page=${page-1}">◀ Previous</a>`;
+  } else {
+    navigationDiv.innerHTML += `<div></div>`;
+  }
+
+  if (page < totalPages) {
+    navigationDiv.innerHTML += `<a href="?page=${page+1}">Next ▶</a>`;
+  }
 }
 
 /* ===== Auto Load Page ===== */
