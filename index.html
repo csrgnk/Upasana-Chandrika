@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upasana Chandrika</title>
+
+<style>
+body {
+  font-family: 'Noto Sans Telugu', sans-serif;
+  background-color: #FFFDF7;
+  margin: 0;
+  color: #5C2E00;
+  line-height: 1.8;
+}
+
+/* ===== Header ===== */
+.header {
+  background: linear-gradient(90deg, #FF9800, #FFA726);
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Highlight Box */
+.highlight-box-wrapper {
+  text-align: center;
+  margin-top: 20px;
+}
+.highlight-box {
+  display: inline-block;
+  background: linear-gradient(90deg, #FFA726, #FFB74D);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Page Numbers */
+.page-numbers {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 20px;
+}
+.page-numbers a {
+  padding: 6px 12px;
+  text-decoration: none;
+  color: orange;
+  font-weight: bold;
+  border: 1px solid orange;
+  border-radius: 6px;
+}
+.page-numbers a.active {
+  background: orange;
+  color: white;
+}
+
+/* Content */
+.content {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fffef9;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-size: 18px;
+}
+
+/* Footer */
+.footer {
+  background: #0D1B3D;   /* Dark Blue */
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin-top: 30px;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  Namo Narayanaya Bhakthi Channel
+</div>
+
+<div class="highlight-box-wrapper">
+  <h2 class="highlight-box">Upasana Chandrika</h2>
+</div>
+
+<!-- Page Numbers -->
+<div class="page-numbers" id="pagination"></div>
+
+<!-- Content Area -->
+<div class="content" id="content">
+  Loading content...
+</div>
+
+<div class="footer">
+  © 2026 Namo Narayanaya Bhakthi Channel | All Rights Reserved
+</div>
+
+<script>
+const totalPages = 143;
+const contentDiv = document.getElementById("content");
+const paginationDiv = document.getElementById("pagination");
+
+let page = new URLSearchParams(window.location.search).get("page") || 1;
+page = parseInt(page);
+
+// Load content from separate html file
+function loadPage(pageNumber) {
+  fetch("pages/page" + pageNumber + ".html")
+    .then(response => {
+      if (!response.ok) throw new Error("Not found");
+      return response.text();
+    })
+    .then(data => {
+      contentDiv.innerHTML = data;
+    })
+    .catch(() => {
+      contentDiv.innerHTML = "<h3>Content not found.</h3>";
+    });
+}
+
+function createPagination() {
+  for (let i = 1; i <= totalPages; i++) {
+    const link = document.createElement("a");
+    link.href = "?page=" + i;
+    link.innerText = i;
+    if (i === page) link.classList.add("active");
+    paginationDiv.appendChild(link);
+  }
+}
+
+loadPage(page);
+createPagination();
+</script>
+
+</body>
+</html>
