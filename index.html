@@ -121,6 +121,12 @@ overflow-x:auto;
 scrollbar-width:none;
 }
 
+/* extra scroll space for last page */
+
+.numbers-wrapper::after{
+content:"";
+flex:0 0 120px;
+}
 .numbers-wrapper::-webkit-scrollbar{display:none;}
 
 .numbers-wrapper a{
