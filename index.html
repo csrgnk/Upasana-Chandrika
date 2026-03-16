@@ -47,7 +47,7 @@ html, body {
     font-size: 14px;
 }
 
-/* ===== Channel Name: Two Line Center Setup ===== */
+/* ===== Channel Name Section ===== */
 .site-title-box {
     background-color: #FFFDE7;
     padding: 25px 10px;
@@ -59,8 +59,7 @@ html, body {
     color: #C2185B;
     font-size: 24px;
     margin: 0;
-    line-height: 1.2; /* Controls space between the two lines */
-    font-weight: bold;
+    line-height: 1.2;
 }
 
 /* ===== Pagination Section ===== */
@@ -105,6 +104,7 @@ html, body {
     font-weight: bold;
 }
 .numbers-wrapper a.active { background-color: #C2185B; color: white; }
+
 .scroll-btn {
     background-color: #C2185B;
     color: white;
@@ -124,6 +124,7 @@ html, body {
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     text-align: center;
+    min-height: 300px;
 }
 
 .badge-pos {
@@ -145,12 +146,26 @@ html, body {
     font-weight: bold;
 }
 
-/* Increased Font Size Here */
 .page-text-content {
-    font-size: 20px; /* Increased from 18px to 20px */
+    font-size: 20px; 
     color: #5C2E00;
     line-height: 1.6;
     word-wrap: break-word;
+    width: 100%;
+}
+
+/* Fix for 404 / Coming Soon Overflow */
+.coming-soon-box {
+    background-color: #C2185B;
+    color: white;
+    padding: 40px 20px;
+    border-radius: 10px;
+    width: 100%; /* Ensures it stays inside the card */
+    max-width: 100%;
+}
+.coming-soon-box h2 {
+    color: white !important;
+    margin-bottom: 10px;
 }
 
 .bottom-nav {
@@ -228,14 +243,22 @@ page = parseInt(page);
 function loadPage(p) {
     pageBadge.innerText = p;
     fetch("pages/page" + p + ".html")
-        .then(res => res.text())
+        .then(res => {
+            if (!res.ok) throw new Error('404');
+            return res.text();
+        })
         .then(data => { 
             contentDiv.innerHTML = data; 
             updateButtons(); 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         })
         .catch(() => {
-            contentDiv.innerHTML = "<div><h2>Coming Soon</h2></div>";
+            // Updated Centered Coming Soon Design
+            contentDiv.innerHTML = `
+                <div class="coming-soon-box">
+                    <h2>Coming Soon</h2>
+                    <p>This page is currently being prepared.<br>Please check back later.</p>
+                </div>`;
             updateButtons();
         });
 }
