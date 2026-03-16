@@ -6,14 +6,9 @@
 <title>Upasana Chandrika</title>
 
 <style>
-/* 1. Reset everything to 0 and use Border-Box */
-* { 
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0; 
-}
+/* ===== Reset & Force Center ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* 2. Force Body to be a Column Center */
 html, body {
     width: 100%;
     max-width: 100vw;
@@ -22,10 +17,10 @@ html, body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    align-items: center; /* This centers everything horizontally */
+    align-items: center; 
 }
 
-/* 3. Navigation Bar Fix */
+/* ===== Top Pink Navigation ===== */
 .top-header-nav {
     background-color: #C2185B;
     padding: 12px 0;
@@ -33,7 +28,10 @@ html, body {
     overflow-x: auto;
     white-space: nowrap;
     text-align: center;
+    scrollbar-width: none;
 }
+.top-header-nav::-webkit-scrollbar { display: none; }
+
 .nav-links-container {
     display: inline-flex;
     gap: 12px;
@@ -49,10 +47,10 @@ html, body {
     font-size: 14px;
 }
 
-/* 4. Title Box Fix */
+/* ===== Channel Name: Two Line Center Setup ===== */
 .site-title-box {
     background-color: #FFFDE7;
-    padding: 30px 10px;
+    padding: 25px 10px;
     border-bottom: 4px solid #FFD600;
     width: 100%;
     text-align: center;
@@ -61,9 +59,11 @@ html, body {
     color: #C2185B;
     font-size: 24px;
     margin: 0;
+    line-height: 1.2; /* Controls space between the two lines */
+    font-weight: bold;
 }
 
-/* 5. Pagination Section Fix */
+/* ===== Pagination Section ===== */
 .page-nav-section {
     width: 100%;
     background: white;
@@ -78,6 +78,7 @@ html, body {
     padding: 10px 25px;
     border-radius: 30px;
     margin-bottom: 15px;
+    font-weight: bold;
 }
 .scroll-controls {
     display: flex;
@@ -101,6 +102,7 @@ html, body {
     padding: 8px 15px;
     border-radius: 4px;
     flex-shrink: 0;
+    font-weight: bold;
 }
 .numbers-wrapper a.active { background-color: #C2185B; color: white; }
 .scroll-btn {
@@ -109,18 +111,18 @@ html, body {
     border: none;
     padding: 8px 14px;
     border-radius: 4px;
+    cursor: pointer;
 }
 
-/* 6. MAIN CONTENT CARD (The Center Fix) */
+/* ===== MAIN CONTENT CARD ===== */
 .main-content-card {
-    width: 90%; 
+    width: 92%; 
     max-width: 850px; 
-    margin: 50px auto; /* 'auto' centers it */
+    margin: 40px auto;
     background-color: #FFFDE7;
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    position: relative; /* Ensure no 'left' or 'right' is set */
     text-align: center;
 }
 
@@ -140,15 +142,17 @@ html, body {
     align-items: center;
     justify-content: center;
     border: 4px solid #F4F7F6;
+    font-weight: bold;
 }
 
+/* Increased Font Size Here */
 .page-text-content {
-    font-size: 18px;
+    font-size: 20px; /* Increased from 18px to 20px */
     color: #5C2E00;
     line-height: 1.6;
+    word-wrap: break-word;
 }
 
-/* 7. Bottom Navigation Buttons */
 .bottom-nav {
     display: flex;
     justify-content: center;
@@ -164,7 +168,6 @@ html, body {
     font-weight: bold;
 }
 
-/* 8. Footer */
 .footer {
     background-color: #0D1B3D;
     color: white;
@@ -188,7 +191,7 @@ html, body {
 </nav>
 
 <div class="site-title-box">
-    <h1>Namo Narayanaya Bhakthi Channel</h1>
+    <h1>Namo Narayanaya<br>Bhakthi Channel</h1>
 </div>
 
 <div class="page-nav-section">
@@ -226,7 +229,11 @@ function loadPage(p) {
     pageBadge.innerText = p;
     fetch("pages/page" + p + ".html")
         .then(res => res.text())
-        .then(data => { contentDiv.innerHTML = data; updateButtons(); })
+        .then(data => { 
+            contentDiv.innerHTML = data; 
+            updateButtons(); 
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
         .catch(() => {
             contentDiv.innerHTML = "<div><h2>Coming Soon</h2></div>";
             updateButtons();
