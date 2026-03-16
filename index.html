@@ -37,7 +37,7 @@ background:#F4F7F6;
 color:#333;
 }
 
-/* ===== Top Nav ===== */
+/* TOP NAV */
 
 .top-header-nav{
 background:#C2185B;
@@ -66,7 +66,7 @@ padding:8px 18px;
 border-radius:5px;
 }
 
-/* ===== Title ===== */
+/* TITLE */
 
 .site-title-box{
 background:#FFFDE7;
@@ -82,7 +82,7 @@ font-size:24px;
 line-height:1.3;
 }
 
-/* ===== Page Nav ===== */
+/* PAGE NAV */
 
 .page-nav-section{
 display:flex;
@@ -144,7 +144,7 @@ background:#C2185B;
 color:white;
 }
 
-/* ===== Content ===== */
+/* CONTENT */
 
 .main-content-card{
 width:90%;
@@ -200,7 +200,7 @@ border-radius:12px;
 text-align:center;
 }
 
-/* ===== Buttons ===== */
+/* BUTTONS */
 
 .bottom-nav{
 display:flex;
@@ -217,7 +217,7 @@ border-radius:25px;
 font-weight:bold;
 }
 
-/* ===== Footer ===== */
+/* FOOTER */
 
 .footer{
 background:#0D1B3D;
@@ -294,7 +294,7 @@ const btmNav = document.getElementById("bottom-nav");
 let page = new URLSearchParams(window.location.search).get("page") || 1;
 page = parseInt(page);
 
-/* load page */
+/* LOAD PAGE */
 
 function loadPage(p){
 
@@ -327,7 +327,7 @@ updateButtons();
 
 }
 
-/* pagination */
+/* PAGINATION */
 
 function createPagination(){
 
@@ -349,7 +349,7 @@ paginationDiv.appendChild(a);
 
 }
 
-/* scroll */
+/* SCROLL BUTTON */
 
 function sideScroll(d){
 
@@ -360,7 +360,7 @@ behavior:'smooth'
 
 }
 
-/* bottom buttons */
+/* PREVIOUS NEXT */
 
 function updateButtons(){
 
@@ -374,11 +374,31 @@ ${page<totalPages?`<a href="?page=${page+1}" class="nav-btn">Next</a>`:`<div></d
 
 }
 
+/* PAGE LOAD */
+
 document.addEventListener("DOMContentLoaded",()=>{
 
 createPagination();
 
 loadPage(page);
+
+/* AUTO CENTER ACTIVE PAGE */
+
+setTimeout(()=>{
+
+const active=document.querySelector(".numbers-wrapper a.active");
+
+if(active){
+
+active.scrollIntoView({
+behavior:"smooth",
+inline:"center",
+block:"nearest"
+});
+
+}
+
+},100);
 
 });
 
