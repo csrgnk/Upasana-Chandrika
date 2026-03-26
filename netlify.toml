@@ -1,9 +1,8 @@
 [build]
-  command = "node generate-sitemap.js"
+  command = "npm run build"
   publish = "."
 
 [[redirects]]
   from = "/*"
-  to = "/404.html"
+  to = "/index.html"
   status = 200
-  
