@@ -1,7 +1,9 @@
 {
   "name": "upasana-chandrika-site",
   "version": "1.0.0",
+  "description": "Devotional site with auto-sitemap",
   "scripts": {
     "build": "node generate-sitemap.js"
-  }
+  },
+  "dependencies": {}
 }
