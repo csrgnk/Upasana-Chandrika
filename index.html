@@ -55,7 +55,7 @@
             flex-shrink: 0;
         }
 
-        /* ===== Logo & Header Section (Cross-site Standard) ===== */
+        /* ===== Logo & Header Section ===== */
         .header-container {
             background-color: #FFFDE7;
             padding: 20px 10px;
@@ -76,9 +76,7 @@
             border: 2px solid #C2185B;
         }
 
-        .site-title-wrapper {
-            text-align: left;
-        }
+        .site-title-wrapper { text-align: left; }
 
         .site-title-main {
             color: #C2185B;
@@ -249,7 +247,7 @@
 
 <main class="main-content-card">
     <div class="badge-pos">
-        <div class="round-badge" id="current-page">1</div>
+        <div class="round-badge" id="current-page">I</div>
     </div>
     <div id="content" class="page-text-content">Loading content...</div>
     <div class="bottom-nav" id="bottom-nav"></div>
@@ -266,14 +264,17 @@ const contentDiv = document.getElementById("content");
 const pageBadge = document.getElementById("current-page");
 const btmNav = document.getElementById("bottom-nav");
 
-// Get page from URL query param (?page=X)
+// Updated: Default to 0 (Index) if no page param exists
 let urlParams = new URLSearchParams(window.location.search);
-let page = parseInt(urlParams.get("page")) || 1;
+let page = urlParams.has("page") ? parseInt(urlParams.get("page")) : 0;
 
 function loadPage(p) {
-    pageBadge.innerText = p;
-    // Dynamic Title for SEO
-    document.title = "Upasana Chandrika - Page " + p + " | Namo Narayanaya";
+    // Show 'I' for Index, else the Number
+    pageBadge.innerText = (p === 0) ? "I" : p;
+    
+    // SEO Meta Title
+    document.title = (p === 0) ? "Upasana Chandrika - Index" : "Upasana Chandrika - Page " + p;
+    document.title += " | Namo Narayanaya";
     
     fetch("pages/page" + p + ".html")
         .then(res => {
@@ -295,11 +296,11 @@ function loadPage(p) {
         });
 }
 
-// Build Pagination
-for (let i = 1; i <= totalPages; i++) {
+// Build Pagination starting from 0
+for (let i = 0; i <= totalPages; i++) {
     const a = document.createElement("a");
     a.href = "?page=" + i;
-    a.innerText = i;
+    a.innerText = (i === 0) ? "Index" : i;
     if (i === page) a.className = "active";
     paginationDiv.appendChild(a);
 }
@@ -308,14 +309,13 @@ function sideScroll(d) { paginationDiv.scrollBy({ left: d, behavior: 'smooth' })
 
 function updateButtons() {
     btmNav.innerHTML = `
-        ${page > 1 ? `<a href="?page=${page-1}" class="nav-btn">Previous</a>` : ''}
+        ${page > 0 ? `<a href="?page=${page-1}" class="nav-btn">Previous</a>` : ''}
         ${page < totalPages ? `<a href="?page=${page+1}" class="nav-btn">Next</a>` : ''}
     `;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     loadPage(page);
-    // Auto-scroll pagination to active page
     setTimeout(() => {
         const active = document.querySelector(".active");
         if (active) active.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
