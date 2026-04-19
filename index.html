@@ -114,10 +114,19 @@
         .badge-pos { display: flex; justify-content: center; margin-top: -55px; margin-bottom: 25px; }
         .round-badge { background-color: #C2185B; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid #F4F7F6; font-weight: bold; }
 
+        /* ===== GLOBAL PINK COLOR FOR ALL LOADED PAGES ===== */
         .page-text-content { font-size: 20px; color: #5C2E00; line-height: 1.7; word-wrap: break-word; width: 100%; }
+        
+        /* This forces all H1, H2, H3 inside any page to be Pink and Bold */
+        .page-text-content h1, 
+        .page-text-content h2, 
+        .page-text-content h3 { 
+            color: #C2185B !important; 
+            font-weight: bold !important; 
+            margin-bottom: 15px;
+        }
 
-        /* ===== PINK INDEX HIGHLIGHT STYLES ===== */
-        .idx-pink-bold { color: #C2185B !important; font-weight: bold !important; }
+        /* ===== INDEX SPECIFIC STYLES ===== */
         .idx-h1-line { color: #C2185B; font-size: 28px; border-bottom: 3px solid #FFD600; display: inline-block; padding-bottom: 5px; font-weight: bold; margin: 10px 0; }
         .index-table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
         .index-table td { padding: 14px 5px; border-bottom: 1px dashed #C2185B; }
@@ -183,12 +192,11 @@ const contentDiv = document.getElementById("content");
 const pageBadge = document.getElementById("current-page");
 const btmNav = document.getElementById("bottom-nav");
 
-// Static Index HTML with Pink Bold Styling
 const pinkIndexHTML = `
     <div style="text-align: center; margin-bottom: 20px;">
-        <h2 class="idx-pink-bold">జై గురుదేవ్</h2>
+        <h2>జై గురుదేవ్</h2>
         <h1 class="idx-h1-line">శ్రీ ఉపాసన చంద్రిక</h1>
-        <h3 class="idx-pink-bold" style="margin-top: 10px;">విషయ సూచిక</h3>
+        <h3>విషయ సూచిక</h3>
     </div>
     <table class="index-table">
         <tr><td class="page-col">1</td><td class="topic-col"><a href="?page=1">ప్రాతః స్మరణ సంస్కృత శ్లోకములు</a></td></tr>
@@ -229,23 +237,12 @@ function loadPage(p) {
         pageBadge.innerText = p;
         document.title = "Upasana Chandrika - Page " + p + " | Namo Narayanaya";
         fetch("pages/page" + p + ".html")
-            .then(res => {
-                if(!res.ok) throw new Error();
-                return res.text();
-            })
-            .then(data => { 
-                contentDiv.innerHTML = data; 
-                updateButtons(); 
-                window.scrollTo({ top: 0, behavior: 'smooth' }); 
-            })
-            .catch(() => { 
-                contentDiv.innerHTML = "Page content coming soon..."; 
-                updateButtons(); 
-            });
+            .then(res => res.text())
+            .then(data => { contentDiv.innerHTML = data; updateButtons(); window.scrollTo({ top: 0, behavior: 'smooth' }); })
+            .catch(() => { contentDiv.innerHTML = "Content loading..."; updateButtons(); });
     }
 }
 
-// Generate Pagination Bar
 for (let i = 0; i <= totalPages; i++) {
     const a = document.createElement("a");
     a.href = "?page=" + i;
