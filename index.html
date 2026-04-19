@@ -114,19 +114,12 @@
         .badge-pos { display: flex; justify-content: center; margin-top: -55px; margin-bottom: 25px; }
         .round-badge { background-color: #C2185B; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid #F4F7F6; font-weight: bold; }
 
-        /* ===== GLOBAL PINK COLOR FOR ALL LOADED PAGES ===== */
         .page-text-content { font-size: 20px; color: #5C2E00; line-height: 1.7; word-wrap: break-word; width: 100%; }
-        
-        /* This forces all H1, H2, H3 inside any page to be Pink and Bold */
-        .page-text-content h1, 
-        .page-text-content h2, 
-        .page-text-content h3 { 
-            color: #C2185B !important; 
-            font-weight: bold !important; 
-            margin-bottom: 15px;
-        }
 
-        /* ===== INDEX SPECIFIC STYLES ===== */
+        /* Force Pink Headings in loaded content */
+        .page-text-content h1, .page-text-content h2, .page-text-content h3 { color: #C2185B !important; font-weight: bold !important; margin-bottom: 15px; }
+
+        /* Index Specific Styling */
         .idx-h1-line { color: #C2185B; font-size: 28px; border-bottom: 3px solid #FFD600; display: inline-block; padding-bottom: 5px; font-weight: bold; margin: 10px 0; }
         .index-table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
         .index-table td { padding: 14px 5px; border-bottom: 1px dashed #C2185B; }
@@ -147,8 +140,6 @@
 <nav class="top-nav-container">
     <a href="/">Home</a>
     <a href="https://omnnbc.com">Main Site</a>
-    <a href="https://csrgnk.github.io/Dasabodha/">Dasabodha</a>
-    <a href="https://csrgnk.github.io/manache-shlok/">Manache Shlok</a>
 </nav>
 
 <header class="header-container">
@@ -156,7 +147,7 @@
     <div class="site-title-wrapper">
         <h1 class="site-title-main">
             <span class="line-1">Namo Narayanaya</span>
-            <span class="line-2">Bhakthi Channel</span>
+            <span class="line-2" style="font-size: 18px; font-weight: normal;">Bhakthi Channel</span>
         </h1>
     </div>
 </header>
@@ -174,10 +165,7 @@
     <div class="badge-pos">
         <div class="round-badge" id="current-page">I</div>
     </div>
-    
-    <div id="content" class="page-text-content">
-        </div>
-
+    <div id="content" class="page-text-content">Loading...</div>
     <div class="bottom-nav" id="bottom-nav"></div>
 </main>
 
@@ -194,9 +182,9 @@ const btmNav = document.getElementById("bottom-nav");
 
 const pinkIndexHTML = `
     <div style="text-align: center; margin-bottom: 20px;">
-        <h2>జై గురుదేవ్</h2>
+        <h2 style="color:#C2185B; font-weight:bold;">జై గురుదేవ్</h2>
         <h1 class="idx-h1-line">శ్రీ ఉపాసన చంద్రిక</h1>
-        <h3>విషయ సూచిక</h3>
+        <h3 style="color:#C2185B; font-weight:bold; margin-top:10px;">విషయ సూచిక</h3>
     </div>
     <table class="index-table">
         <tr><td class="page-col">1</td><td class="topic-col"><a href="?page=1">ప్రాతః స్మరణ సంస్కృత శ్లోకములు</a></td></tr>
@@ -211,7 +199,7 @@ const pinkIndexHTML = `
         <tr><td class="page-col">39</td><td class="topic-col"><a href="?page=39">శ్రీ గోవింద్ మహారాజ్ గారి ఆరతీ</a></td></tr>
         <tr><td class="page-col">41</td><td class="topic-col"><a href="?page=41">భిక్ష</a></td></tr>
         <tr><td class="page-col">43</td><td class="topic-col"><a href="?page=43">ఛబిన</a></td></tr>
-        <tr><td class="page-col">52</td><td class="topic-col"><a href="?page=52">భీమరూపి స్తోత్రం</a></td></tr>
+        <tr><td class="page-col">53</td><td class="topic-col"><a href="?page=53">భీమరూపి స్తోత్రం</a></td></tr>
         <tr><td class="page-col">69</td><td class="topic-col"><a href="?page=69">శ్రీరామ రక్షా స్తోత్రం</a></td></tr>
         <tr><td class="page-col">74</td><td class="topic-col"><a href="?page=74">హనుమాన్ చాలీసా</a></td></tr>
         <tr><td class="page-col">78</td><td class="topic-col"><a href="?page=78">శ్రీరామదాస చక్రీ భజన</a></td></tr>
@@ -225,36 +213,44 @@ const pinkIndexHTML = `
 `;
 
 let urlParams = new URLSearchParams(window.location.search);
-let page = urlParams.has("page") ? parseInt(urlParams.get("page")) : 0;
+let page = urlParams.get("page");
 
 function loadPage(p) {
-    if (p === 0) {
+    if (p === null || p === "0") {
         contentDiv.innerHTML = pinkIndexHTML;
         pageBadge.innerText = "I";
-        document.title = "Upasana Chandrika - Index | Namo Narayanaya";
-        updateButtons();
+        document.title = "Upasana Chandrika - Index";
+        updateButtons(0);
     } else {
-        pageBadge.innerText = p;
-        document.title = "Upasana Chandrika - Page " + p + " | Namo Narayanaya";
-        fetch("pages/page" + p + ".html")
+        const pageNum = parseInt(p);
+        pageBadge.innerText = pageNum;
+        document.title = "Page " + pageNum + " | Upasana Chandrika";
+        fetch("pages/page" + pageNum + ".html")
             .then(res => res.text())
-            .then(data => { contentDiv.innerHTML = data; updateButtons(); window.scrollTo({ top: 0, behavior: 'smooth' }); })
-            .catch(() => { contentDiv.innerHTML = "Content loading..."; updateButtons(); });
+            .then(data => { contentDiv.innerHTML = data; updateButtons(pageNum); window.scrollTo(0,0); })
+            .catch(() => { contentDiv.innerHTML = "Content loading..."; updateButtons(pageNum); });
     }
 }
 
-for (let i = 0; i <= totalPages; i++) {
+// Build Pagination Bar (Starts from 1, Home button leads to pure URL)
+const homeBtn = document.createElement("a");
+homeBtn.href = window.location.pathname; // Pure URL
+homeBtn.innerText = "Index";
+if (page === null || page === "0") homeBtn.className = "active";
+paginationDiv.appendChild(homeBtn);
+
+for (let i = 1; i <= totalPages; i++) {
     const a = document.createElement("a");
     a.href = "?page=" + i;
-    a.innerText = (i === 0) ? "Index" : i;
-    if (i === page) a.className = "active";
+    a.innerText = i;
+    if (page === i.toString()) a.className = "active";
     paginationDiv.appendChild(a);
 }
 
-function updateButtons() {
+function updateButtons(curr) {
     btmNav.innerHTML = `
-        ${page > 0 ? `<a href="?page=${page-1}" class="nav-btn">Previous</a>` : ''}
-        ${page < totalPages ? `<a href="?page=${page+1}" class="nav-btn">Next</a>` : ''}
+        ${curr > 0 ? `<a href="${curr === 1 ? window.location.pathname : '?page=' + (curr - 1)}" class="nav-btn">Previous</a>` : ''}
+        ${curr < totalPages ? `<a href="?page=${curr + 1}" class="nav-btn">Next</a>` : ''}
     `;
 }
 
