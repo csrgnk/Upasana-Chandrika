@@ -67,25 +67,9 @@
             gap: 15px;
         }
 
-        .header-logo { 
-            width: 60px; 
-            height: 60px; 
-            border-radius: 50%; 
-            object-fit: cover; 
-            flex-shrink: 0;
-            border: 2px solid #C2185B;
-        }
-
+        .header-logo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid #C2185B; }
         .site-title-wrapper { text-align: left; }
-
-        .site-title-main {
-            color: #C2185B;
-            font-size: 22px;
-            margin: 0;
-            line-height: 1.1;
-            display: flex;
-            flex-direction: column;
-        }
+        .site-title-main { color: #C2185B; font-size: 22px; margin: 0; line-height: 1.1; display: flex; flex-direction: column; }
         .line-1 { font-weight: bold; }
         .line-2 { font-size: 18px; font-weight: normal; }
 
@@ -107,41 +91,12 @@
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .scroll-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-        }
-        .numbers-wrapper {
-            display: flex;
-            overflow-x: auto;
-            gap: 8px;
-            padding: 10px;
-            max-width: 70%;
-            scrollbar-width: none;
-        }
+        .scroll-controls { display: flex; align-items: center; justify-content: center; width: 100%; }
+        .numbers-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 10px; max-width: 70%; scrollbar-width: none; }
         .numbers-wrapper::-webkit-scrollbar { display: none; }
-        .numbers-wrapper a {
-            text-decoration: none;
-            color: #C2185B;
-            border: 1px solid #C2185B;
-            padding: 8px 15px;
-            border-radius: 4px;
-            flex-shrink: 0;
-            font-weight: bold;
-        }
+        .numbers-wrapper a { text-decoration: none; color: #C2185B; border: 1px solid #C2185B; padding: 8px 15px; border-radius: 4px; flex-shrink: 0; font-weight: bold; }
         .numbers-wrapper a.active { background-color: #C2185B; color: white; }
-
-        .scroll-btn {
-            background-color: #C2185B;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        .scroll-btn { background-color: #C2185B; color: white; border: none; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
         /* ===== MAIN CONTENT CARD ===== */
         .main-content-card {
@@ -156,64 +111,25 @@
             min-height: 300px;
         }
 
-        .badge-pos {
-            display: flex;
-            justify-content: center;
-            margin-top: -55px;
-            margin-bottom: 25px;
-        }
-        .round-badge {
-            background-color: #C2185B;
-            color: white;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 4px solid #F4F7F6;
-            font-weight: bold;
-        }
+        .badge-pos { display: flex; justify-content: center; margin-top: -55px; margin-bottom: 25px; }
+        .round-badge { background-color: #C2185B; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid #F4F7F6; font-weight: bold; }
 
-        .page-text-content {
-            font-size: 20px; 
-            color: #5C2E00;
-            line-height: 1.7;
-            word-wrap: break-word;
-            width: 100%;
-        }
+        .page-text-content { font-size: 20px; color: #5C2E00; line-height: 1.7; word-wrap: break-word; width: 100%; }
 
-        .coming-soon-box {
-            background-color: #C2185B;
-            color: white;
-            padding: 40px 20px;
-            border-radius: 10px;
-            width: 100%;
-        }
+        /* ===== PINK INDEX HIGHLIGHT STYLES ===== */
+        .idx-pink-bold { color: #C2185B !important; font-weight: bold !important; }
+        .idx-h1-line { color: #C2185B; font-size: 28px; border-bottom: 3px solid #FFD600; display: inline-block; padding-bottom: 5px; font-weight: bold; margin: 10px 0; }
+        .index-table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 20px; }
+        .index-table td { padding: 14px 5px; border-bottom: 1px dashed #C2185B; }
+        .page-col { width: 45px; font-weight: bold; color: #C2185B; font-size: 18px; }
+        .topic-col a { text-decoration: none; color: #C2185B; display: block; font-size: 19px; font-weight: bold; transition: 0.2s; }
+        .topic-col a:hover { color: #5C2E00; padding-left: 5px; }
+        .sub-info { font-size: 14px; color: #666; display: block; font-weight: normal; }
 
-        .bottom-nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding-top: 25px;
-        }
-        .nav-btn {
-            background-color: #C2185B;
-            color: white;
-            text-decoration: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-        }
+        .bottom-nav { display: flex; justify-content: center; gap: 20px; padding-top: 25px; }
+        .nav-btn { background-color: #C2185B; color: white; text-decoration: none; padding: 12px 25px; border-radius: 25px; font-weight: bold; }
 
-        .footer {
-            background-color: #0D1B3D;
-            color: white;
-            text-align: center;
-            padding: 30px;
-            width: 100%;
-            margin-top: auto;
-        }
+        .footer { background-color: #0D1B3D; color: white; text-align: center; padding: 30px; width: 100%; margin-top: auto; }
     </style>
 </head>
 
@@ -249,7 +165,10 @@
     <div class="badge-pos">
         <div class="round-badge" id="current-page">I</div>
     </div>
-    <div id="content" class="page-text-content">Loading content...</div>
+    
+    <div id="content" class="page-text-content">
+        </div>
+
     <div class="bottom-nav" id="bottom-nav"></div>
 </main>
 
@@ -264,39 +183,69 @@ const contentDiv = document.getElementById("content");
 const pageBadge = document.getElementById("current-page");
 const btmNav = document.getElementById("bottom-nav");
 
-// Updated: Default to 0 (Index) if no page param exists
+// Static Index HTML with Pink Bold Styling
+const pinkIndexHTML = `
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h2 class="idx-pink-bold">జై గురుదేవ్</h2>
+        <h1 class="idx-h1-line">శ్రీ ఉపాసన చంద్రిక</h1>
+        <h3 class="idx-pink-bold" style="margin-top: 10px;">విషయ సూచిక</h3>
+    </div>
+    <table class="index-table">
+        <tr><td class="page-col">1</td><td class="topic-col"><a href="?page=1">ప్రాతః స్మరణ సంస్కృత శ్లోకములు</a></td></tr>
+        <tr><td class="page-col">9</td><td class="topic-col"><a href="?page=9">భూపాలీ</a></td></tr>
+        <tr><td class="page-col">21</td><td class="topic-col"><a href="?page=21">ఊర్వశీ <span class="sub-info">(సజ్జన్‌గఢ్ చరణాల్లో ప్రవహించినది)</span></a></td></tr>
+        <tr><td class="page-col">21</td><td class="topic-col"><a href="?page=21">కాకడారతీ</a></td></tr>
+        <tr><td class="page-col">24</td><td class="topic-col"><a href="?page=24">పూజా విధానము</a></td></tr>
+        <tr><td class="page-col">26</td><td class="topic-col"><a href="?page=26">శ్రీ సద్గురు స్తవనము</a></td></tr>
+        <tr><td class="page-col">31</td><td class="topic-col"><a href="?page=31">ఆరతీలు</a></td></tr>
+        <tr><td class="page-col">33</td><td class="topic-col"><a href="?page=33">శ్రీ గురుపరంపరా</a></td></tr>
+        <tr><td class="page-col">34</td><td class="topic-col"><a href="?page=34">మానసపూజ</a></td></tr>
+        <tr><td class="page-col">39</td><td class="topic-col"><a href="?page=39">శ్రీ గోవింద్ మహారాజ్ గారి ఆరతీ</a></td></tr>
+        <tr><td class="page-col">41</td><td class="topic-col"><a href="?page=41">భిక్ష</a></td></tr>
+        <tr><td class="page-col">43</td><td class="topic-col"><a href="?page=43">ఛబిన</a></td></tr>
+        <tr><td class="page-col">52</td><td class="topic-col"><a href="?page=52">భీమరూపి స్తోత్రం</a></td></tr>
+        <tr><td class="page-col">69</td><td class="topic-col"><a href="?page=69">శ్రీరామ రక్షా స్తోత్రం</a></td></tr>
+        <tr><td class="page-col">74</td><td class="topic-col"><a href="?page=74">హనుమాన్ చాలీసా</a></td></tr>
+        <tr><td class="page-col">78</td><td class="topic-col"><a href="?page=78">శ్రీరామదాస చక్రీ భజన</a></td></tr>
+        <tr><td class="page-col">86</td><td class="topic-col"><a href="?page=86">కరుణాష్టకాలు</a></td></tr>
+        <tr><td class="page-col">103</td><td class="topic-col"><a href="?page=103">వారముల అష్టకము</a></td></tr>
+        <tr><td class="page-col">114</td><td class="topic-col"><a href="?page=114">సవాయిలు</a></td></tr>
+        <tr><td class="page-col">129</td><td class="topic-col"><a href="?page=129">దాసబోధ వచనము</a></td></tr>
+        <tr><td class="page-col">135</td><td class="topic-col"><a href="?page=135">షేజారతి</a></td></tr>
+        <tr><td class="page-col">143</td><td class="topic-col"><a href="?page=143">రామదాసి ఎప్పుడు అనాలి</a></td></tr>
+    </table>
+`;
+
 let urlParams = new URLSearchParams(window.location.search);
 let page = urlParams.has("page") ? parseInt(urlParams.get("page")) : 0;
 
 function loadPage(p) {
-    // Show 'I' for Index, else the Number
-    pageBadge.innerText = (p === 0) ? "I" : p;
-    
-    // SEO Meta Title
-    document.title = (p === 0) ? "Upasana Chandrika - Index" : "Upasana Chandrika - Page " + p;
-    document.title += " | Namo Narayanaya";
-    
-    fetch("pages/page" + p + ".html")
-        .then(res => {
-            if (!res.ok) throw new Error('404');
-            return res.text();
-        })
-        .then(data => { 
-            contentDiv.innerHTML = data; 
-            updateButtons(); 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        })
-        .catch(() => {
-            contentDiv.innerHTML = `
-                <div class="coming-soon-box">
-                    <h2>Page Not Found</h2>
-                    <p>This chapter is currently being updated. Please check back soon.</p>
-                </div>`;
-            updateButtons();
-        });
+    if (p === 0) {
+        contentDiv.innerHTML = pinkIndexHTML;
+        pageBadge.innerText = "I";
+        document.title = "Upasana Chandrika - Index | Namo Narayanaya";
+        updateButtons();
+    } else {
+        pageBadge.innerText = p;
+        document.title = "Upasana Chandrika - Page " + p + " | Namo Narayanaya";
+        fetch("pages/page" + p + ".html")
+            .then(res => {
+                if(!res.ok) throw new Error();
+                return res.text();
+            })
+            .then(data => { 
+                contentDiv.innerHTML = data; 
+                updateButtons(); 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            })
+            .catch(() => { 
+                contentDiv.innerHTML = "Page content coming soon..."; 
+                updateButtons(); 
+            });
+    }
 }
 
-// Build Pagination starting from 0
+// Generate Pagination Bar
 for (let i = 0; i <= totalPages; i++) {
     const a = document.createElement("a");
     a.href = "?page=" + i;
@@ -305,8 +254,6 @@ for (let i = 0; i <= totalPages; i++) {
     paginationDiv.appendChild(a);
 }
 
-function sideScroll(d) { paginationDiv.scrollBy({ left: d, behavior: 'smooth' }); }
-
 function updateButtons() {
     btmNav.innerHTML = `
         ${page > 0 ? `<a href="?page=${page-1}" class="nav-btn">Previous</a>` : ''}
@@ -314,14 +261,15 @@ function updateButtons() {
     `;
 }
 
+function sideScroll(d) { paginationDiv.scrollBy({ left: d, behavior: 'smooth' }); }
+
 document.addEventListener("DOMContentLoaded", () => {
     loadPage(page);
     setTimeout(() => {
         const active = document.querySelector(".active");
-        if (active) active.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        if (active) active.scrollIntoView({ behavior: "smooth", inline: "center" });
     }, 500);
 });
 </script>
-
 </body>
 </html>
