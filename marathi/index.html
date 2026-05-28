@@ -3,27 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>उपासना चंद्रिका (मराठी) - Upasana Chandrika</title>
+    <title>उपासना चन्द्रिका</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { width: 100%; height: 100%; background-color: #f4f4f9; font-family: sans-serif; overflow: hidden; }
-        .header-bar { background-color: #800000; color: #ffffff; padding: 12px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .header-bar h1 { font-size: 1.2rem; margin-bottom: 4px; }
-        .header-bar p { font-size: 0.85rem; opacity: 0.9; }
-        .pdf-container { width: 100%; height: calc(100% - 65px); }
-        iframe { width: 100%; height: 100%; border: none; }
+        /* सर्व CSS डिझाईन इथेच मिक्स केले आहे */
+        body {
+            font-family: 'Georgia', 'Arial', sans-serif;
+            background-color: #fcf8f2;
+            color: #333;
+            line-height: 1.8;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid #d9534f;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px dashed #d9534f;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            margin: 5px 0;
+            color: #d9534f;
+            font-size: 28px;
+        }
+        .header h2 {
+            margin: 5px 0;
+            color: #555;
+            font-size: 20px;
+            font-weight: normal;
+        }
+        .page-indicator {
+            text-align: right;
+            font-weight: bold;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .content-box {
+            font-size: 19px;
+            white-space: pre-wrap;
+            text-align: center;
+            margin-bottom: 30px;
+            min-height: 300px;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #c9302c;
+        }
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
 
-    <div class="header-bar">
-        <h1>उपासना चंद्रिका (मराठी)</h1>
-        <p>Upasana Chandrika Marathi Edition | 140 Pages</p>
+<div class="container">
+    <div class="header">
+        <h2>॥ श्री रामसमर्थ ॥</h2>
+        <h2>॥ श्री समर्थ सांप्रदायिक ।।</h2>
+        <h1>उपासना चन्द्रिका</h1>
     </div>
 
-    <div class="pdf-container">
-        <iframe src="marathi.pdf"></iframe>
+    <!-- इथे पेज नंबर दिसेल -->
+    <div class="page-indicator" id="page-num-display">पृष्ठ १</div>
+
+    <!-- इथे इतर पानांचा मजकूर लोड होईल -->
+    <div class="content-box" id="content-loader">लोड होत आहे...</div>
+
+    <!-- नेव्हिगेशन बटणे -->
+    <div class="navigation">
+        <button class="btn" id="prev-btn" onclick="changePage(-1)">मागे</button>
+        <button class="btn" id="next-btn" onclick="changePage(1)">पुढे</button>
     </div>
+</div>
+
+<script>
+    // फाईल मॅनेजमेंट स्क्रिप्ट
+    let currentPage = 1;
+    const totalPages = 152; // "marathi.pdf" नुसार एकूण पाने[span_0](start_span)[span_0](end_span)
+
+    function loadPageText(page) {
+        const displayBox = document.getElementById('content-loader');
+        const pageNumDisplay = document.getElementById('page-num-display');
+        
+        pageNumDisplay.innerText = "पृष्ठ " + page;
+        displayBox.innerHTML = "लोड होत आहे...";
+
+        // फक्त त्या फाईलचा प्लेन टेक्स्ट मिळवणे
+        fetch(`page${page}.html`)
+            .then(response => {
+                if (!response.ok) throw new Error('पुढील पान उपलब्ध नाही.');
+                return response.text();
+            })
+            .then(text => {
+                // मूळ मजकूर स्क्रीनवर दाखवणे
+                displayBox.textContent = text;
+            })
+            .catch(error => {
+                displayBox.innerHTML = "<span style='color:red;'>मजकूर लोड करता आला नाही. फाईल 'page" + page + ".html' फोल्डरमध्ये असल्याची खात्री करा.</span>";
+            });
+
+        // बटणे चालू/बंद करणे
+        document.getElementById('prev-btn').disabled = (page === 1);
+        document.getElementById('next-btn').disabled = (page === totalPages);
+    }
+
+    function changePage(step) {
+        currentPage += step;
+        if (currentPage < 1) currentPage = 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+        loadPageText(currentPage);
+    }
+
+    // पहिली फाईल सुरुवातीला लोड करणे
+    window.onload = function() {
+        loadPageText(currentPage);
+    };
+</script>
 
 </body>
 </html>
