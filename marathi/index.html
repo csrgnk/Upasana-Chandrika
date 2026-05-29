@@ -2,149 +2,206 @@
 <html lang="mr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>उपासना चन्द्रिका</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title id="meta-title">उпасना चंद्रिका - नमो नारायणाय</title>
+    <meta name="description" content="नमो नारायणाय भक्ती चॅनेलवरून उपासना चंद्रिका भक्तीचे साहित्य वाचा.">
+    <meta name="author" content="Sangameshwar">
+    
+    <link rel="icon" type="image/png" href="https://omnnbc.com/assets/images/Omnnbc-new.png">
+    <link rel="apple-touch-icon" href="https://omnnbc.com/assets/images/Omnnbc-new.png">
+
     <style>
-        /* सर्व CSS डिझाईन इथेच मिक्स केले आहे */
-        body {
-            font-family: 'Georgia', 'Arial', sans-serif;
-            background-color: #fcf8f2;
-            color: #333;
-            line-height: 1.8;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-top: 5px solid #d9534f;
-        }
-        .header {
-            text-align: center;
-            border-bottom: 2px dashed #d9534f;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-        .header h1 {
-            margin: 5px 0;
-            color: #d9534f;
-            font-size: 28px;
-        }
-        .header h2 {
-            margin: 5px 0;
-            color: #555;
-            font-size: 20px;
-            font-weight: normal;
-        }
-        .page-indicator {
-            text-align: right;
-            font-weight: bold;
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-        .content-box {
-            font-size: 19px;
-            white-space: pre-wrap;
-            text-align: center;
-            margin-bottom: 30px;
-            min-height: 300px;
-        }
-        .navigation {
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+            background-color: #F4F7F6;
+            font-family: 'Arial', sans-serif;
             display: flex;
-            justify-content: space-between;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-            margin-top: 20px;
+            flex-direction: column;
+            align-items: center; 
         }
-        .btn {
-            background-color: #d9534f;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
+
+        /* ===== 1. Top Navigation ===== */
+        .top-nav-container {
+            background-color: #C2185B;
+            width: 100%;
+            padding: 12px 5px;
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            justify-content: flex-start;
+        }
+        .top-nav-container::-webkit-scrollbar { display: none; }
+
+        .top-nav-container a {
             text-decoration: none;
+            color: #C2185B;
+            background-color: white;
+            font-weight: bold;
+            padding: 8px 18px;
+            margin: 0 6px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
-        .btn:hover {
-            background-color: #c9302c;
+
+        /* ===== Header Section ===== */
+        .header-container {
+            background-color: #FFFDE7;
+            padding: 20px 10px;
+            border-bottom: 4px solid #FFD600;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
-        .btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+        .header-logo { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #C2185B; }
+        .site-title-main { color: #C2185B; font-size: 22px; text-align: left; line-height: 1.1; }
+
+        /* ===== Pagination Bar ===== */
+        .page-nav-section {
+            width: 100%;
+            background: white;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+        .book-name-badge {
+            background-color: #C2185B;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .scroll-controls { display: flex; align-items: center; justify-content: center; width: 100%; }
+        .numbers-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 10px; max-width: 75%; scrollbar-width: none; }
+        .numbers-wrapper::-webkit-scrollbar { display: none; }
+        .numbers-wrapper a { text-decoration: none; color: #C2185B; border: 1px solid #C2185B; padding: 8px 15px; border-radius: 4px; flex-shrink: 0; font-weight: bold; }
+        .numbers-wrapper a.active { background-color: #C2185B; color: white; }
+        .scroll-btn { background-color: #C2185B; color: white; border: none; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+        /* ===== Main Content Card ===== */
+        .main-content-card {
+            width: 94%; 
+            max-width: 850px; 
+            margin: 40px auto;
+            background-color: #FFFDE7;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            min-height: 400px;
+        }
+        .badge-pos { display: flex; justify-content: center; margin-top: -55px; margin-bottom: 25px; }
+        .round-badge { background-color: #C2185B; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid #F4F7F6; font-weight: bold; }
+
+        /* Global Typography for Dynamic Content */
+        .page-text-content { font-size: 22px; color: #3E2723; line-height: 1.9; width: 100%; text-align: center; white-space: pre-line; }
+        .page-text-content h1, .page-text-content h2, .page-text-content h3 { color: #C2185B !important; font-weight: bold !important; margin-bottom: 15px; }
+
+        .bottom-nav { display: flex; justify-content: center; gap: 20px; padding-top: 25px; }
+        .nav-btn { background-color: #C2185B; color: white; text-decoration: none; padding: 12px 25px; border-radius: 25px; font-weight: bold; }
+        .footer { background-color: #0D1B3D; color: white; text-align: center; padding: 30px; width: 100%; margin-top: auto; }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="header">
-        <h2>॥ श्री रामसमर्थ ॥</h2>
-        <h2>॥ श्री समर्थ सांप्रदायिक ।।</h2>
-        <h1>उपासना चन्द्रिका</h1>
-    </div>
+<nav class="top-nav-container">
+    <a href="./">Home</a>
+    <a href="https://omnnbc.com">Main Site</a>
+    <a href="https://csrgnk.github.io/Dasabodha/">Dasabodha</a>
+    <a href="https://csrgnk.github.io/manache-shlok/">Manache Shlok</a>
+</nav>
 
-    <!-- इथे पेज नंबर दिसेल -->
-    <div class="page-indicator" id="page-num-display">पृष्ठ १</div>
+<header class="header-container">
+    <img src="https://omnnbc.com/assets/images/Omnnbc-new.png" class="header-logo" alt="Logo">
+    <h1 class="site-title-main">
+        <span style="font-weight:bold;">नमो नारायणाय</span><br>
+        <span style="font-size:18px; font-weight:normal;">भक्ती चॅनेल</span>
+    </h1>
+</header>
 
-    <!-- इथे इतर पानांचा मजकूर लोड होईल -->
-    <div class="content-box" id="content-loader">लोड होत आहे...</div>
-
-    <!-- नेव्हिगेशन बटणे -->
-    <div class="navigation">
-        <button class="btn" id="prev-btn" onclick="changePage(-1)">मागे</button>
-        <button class="btn" id="next-btn" onclick="changePage(1)">पुढे</button>
+<div class="page-nav-section">
+    <div class="book-name-badge">श्री उपासना चंद्रिका</div>
+    <div class="scroll-controls">
+        <button class="scroll-btn" onclick="sideScroll(-150)">&#10094;</button>
+        <div class="numbers-wrapper" id="pagination"></div>
+        <button class="scroll-btn" onclick="sideScroll(150)">&#10095;</button>
     </div>
 </div>
 
+<main class="main-content-card">
+    <div class="badge-pos">
+        <div class="round-badge" id="current-badge">1</div>
+    </div>
+    <div id="content" class="page-text-content">Loading...</div>
+    <div class="bottom-nav" id="bottom-nav"></div>
+</main>
+
+<footer class="footer">
+    © 2026 Namo Narayanaya Bhakthi Channel | All Rights Reserved
+</footer>
+
 <script>
-    // फाईल मॅनेजमेंट स्क्रिप्ट
-    let currentPage = 1;
-    const totalPages = 152; // "marathi.pdf" नुसार एकूण पाने[span_0](start_span)[span_0](end_span)
+const totalPages = 143;
+const paginationDiv = document.getElementById("pagination");
+const contentDiv = document.getElementById("content");
+const badge = document.getElementById("current-badge");
+const btmNav = document.getElementById("bottom-nav");
 
-    function loadPageText(page) {
-        const displayBox = document.getElementById('content-loader');
-        const pageNumDisplay = document.getElementById('page-num-display');
-        
-        pageNumDisplay.innerText = "पृष्ठ " + page;
-        displayBox.innerHTML = "लोड होत आहे...";
+let urlParams = new URLSearchParams(window.location.search);
+let page = urlParams.get("page");
 
-        // फक्त त्या फाईलचा प्लेन टेक्स्ट मिळवणे
-        fetch(`page${page}.html`)
-            .then(response => {
-                if (!response.ok) throw new Error('पुढील पान उपलब्ध नाही.');
-                return response.text();
-            })
-            .then(text => {
-                // मूळ मजकूर स्क्रीनवर दाखवणे
-                displayBox.textContent = text;
-            })
-            .catch(error => {
-                displayBox.innerHTML = "<span style='color:red;'>मजकूर लोड करता आला नाही. फाईल 'page" + page + ".html' फोल्डरमध्ये असल्याची खात्री करा.</span>";
-            });
+function loadPage(p) {
+    // URL లో ఏ పేజీ మెన్షన్ చేయకపోతే ఆటోమేటిక్‌గా ఒకటో పేజీ (Page 1) లోడ్ అవుతుంది
+    const pNum = p ? parseInt(p) : 1; 
+    badge.innerText = pNum;
+    document.title = "Page " + pNum + " | Upasana Chandrika";
+    
+    // /marathi/pages/ ఫోల్డర్ లోని html ఫైల్ ని ఫెచ్ చేస్తుంది
+    fetch("pages/page" + pNum + ".html")
+        .then(res => res.text())
+        .then(data => { contentDiv.innerHTML = data; updateNav(pNum); window.scrollTo(0,0); })
+        .catch(() => { contentDiv.innerHTML = "<p style='color:#777;padding:20px;'>सामग्री लवकरच येत आहे (Coming Soon)...</p>"; updateNav(pNum); });
+}
 
-        // बटणे चालू/बंद करणे
-        document.getElementById('prev-btn').disabled = (page === 1);
-        document.getElementById('next-btn').disabled = (page === totalPages);
-    }
+// 1 నుండి 143 వరకు గల పేజీల నెవిగేషన్ నంబర్స్ బిల్డ్ చేయడం
+for (let i = 1; i <= totalPages; i++) {
+    const a = document.createElement("a");
+    a.href = "?page=" + i;
+    a.innerText = i;
+    // ఒకవేళ పారామీటర్ లేకపోతే 1 ని యాక్టివ్‌గా చూపిస్తుంది
+    if (page === i.toString() || (!page && i === 1)) a.className = "active"; 
+    paginationDiv.appendChild(a);
+}
 
-    function changePage(step) {
-        currentPage += step;
-        if (currentPage < 1) currentPage = 1;
-        if (currentPage > totalPages) currentPage = totalPages;
-        loadPageText(currentPage);
-    }
+function updateNav(curr) {
+    btmNav.innerHTML = `
+        ${curr > 1 ? `<a href="?page=${curr - 1}" class="nav-btn">मागे (Prev)</a>` : ''}
+        ${curr < totalPages ? `<a href="?page=${curr + 1}" class="nav-btn">पुढे (Next)</a>` : ''}
+    `;
+}
 
-    // पहिली फाईल सुरुवातीला लोड करणे
-    window.onload = function() {
-        loadPageText(currentPage);
-    };
+function sideScroll(d) { paginationDiv.scrollBy({ left: d, behavior: 'smooth' }); }
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadPage(page);
+    setTimeout(() => {
+        const act = document.querySelector(".active");
+        if (act) act.scrollIntoView({ behavior: "smooth", inline: "center" });
+    }, 500);
+});
 </script>
-
 </body>
 </html>
