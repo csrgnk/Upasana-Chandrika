@@ -12,7 +12,9 @@
     <link rel="apple-touch-icon" href="https://omnnbc.com/assets/images/Omnnbc-new.png">
 
     <style>
+        /* Modern Reset */
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         html, body {
             width: 100%;
             min-height: 100vh;
@@ -21,7 +23,7 @@
             display: flex;
             flex-direction: column;
             align-items: center; 
-            -webkit-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%; /* Prevents iOS font resizing */
             overflow-x: hidden;
         }
 
@@ -33,11 +35,12 @@
             display: flex;
             flex-wrap: nowrap;
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
             scrollbar-width: none;
             justify-content: flex-start;
         }
         .top-nav-container::-webkit-scrollbar { display: none; }
+
         .top-nav-container a {
             text-decoration: none;
             color: #C2185B;
@@ -84,8 +87,22 @@
             font-size: 18px;
             text-align: center;
         }
-        .scroll-controls { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 500px; }
-        .numbers-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 5px 10px; flex-grow: 1; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        .scroll-controls { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            width: 100%; 
+            max-width: 500px; /* Constraints pagination on larger screens */
+        }
+        .numbers-wrapper { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 8px; 
+            padding: 5px 10px; 
+            flex-grow: 1;
+            scrollbar-width: none; 
+            -webkit-overflow-scrolling: touch;
+        }
         .numbers-wrapper::-webkit-scrollbar { display: none; }
         
         .numbers-wrapper a { 
@@ -101,7 +118,20 @@
             text-align: center;
         }
         .numbers-wrapper a.active { background-color: #C2185B; color: white; }
-        .scroll-btn { background-color: #C2185B; color: white; border: none; padding: 10px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+        
+        .scroll-btn { 
+            background-color: #C2185B; 
+            color: white; 
+            border: none; 
+            padding: 10px 14px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         /* ===== Main Content Card ===== */
         .main-content-card {
@@ -113,12 +143,22 @@
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             text-align: center;
-            min-height: 300px;
+            min-height: 300px; /* Reduced for better small-device handling if content fails to load */
+            box-sizing: border-box;
         }
         .badge-pos { display: flex; justify-content: center; margin-top: -50px; margin-bottom: 20px; }
         .round-badge { background-color: #C2185B; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid #F4F7F6; font-weight: bold; font-size: 16px; }
 
-        .page-text-content { font-size: 20px; color: #3E2723; line-height: 1.8; width: 100%; text-align: center; white-space: pre-line; word-wrap: break-word; }
+        /* Typography for Dynamic Content */
+        .page-text-content { 
+            font-size: 20px; /* Slightly adjusted for standard readability on smaller phones */
+            color: #3E2723; 
+            line-height: 1.8; 
+            width: 100%; 
+            text-align: center; 
+            white-space: pre-line;
+            word-wrap: break-word; /* Ensures text doesn't spill out */
+        }
         .page-text-content h1, .page-text-content h2, .page-text-content h3 { color: #C2185B !important; font-weight: bold !important; margin-bottom: 15px; }
 
         .bottom-nav { display: flex; justify-content: center; gap: 15px; padding-top: 25px; width: 100%; }
@@ -126,6 +166,7 @@
         
         .footer { background-color: #0D1B3D; color: white; text-align: center; padding: 25px 15px; width: 100%; margin-top: auto; font-size: 14px; }
 
+        /* Mobile specific adjustments */
         @media (max-width: 480px) {
             .site-title-main { font-size: 18px; }
             .site-title-main span { font-size: 14px !important; }
@@ -135,10 +176,11 @@
         }
     </style>
 </head>
+
 <body>
 
 <nav class="top-nav-container">
-    <a href="https://omnnbc.com">Home</a>
+    <a href="./">Home</a>
     <a href="https://omnnbc.com">Main Site</a>
     <a href="https://csrgnk.github.io/Dasabodha/">Dasabodha</a>
     <a href="https://csrgnk.github.io/manache-shlok/">Manache Shlok</a>
@@ -180,93 +222,56 @@ const contentDiv = document.getElementById("content");
 const badge = document.getElementById("current-badge");
 const btmNav = document.getElementById("bottom-nav");
 
-// 1. Clears out old 'index.html?page=X' format completely if a user lands on it
-function cleanLegacyUrl() {
-    if (window.location.search.includes('page=')) {
-        let urlParams = new URLSearchParams(window.location.search);
-        let legacyPage = urlParams.get("page");
-        if (legacyPage) {
-            // Instantly rewrite to the clean clean hash system
-            window.location.href = window.location.pathname.replace('index.html', '') + "#page=" + legacyPage;
-        }
-    } else if (window.location.pathname.includes('index.html')) {
-        // Just strip index.html if present
-        window.history.replaceState(null, '', window.location.pathname.replace('index.html', '') + window.location.hash);
-    }
-}
+let urlParams = new URLSearchParams(window.location.search);
+let page = urlParams.get("page");
 
-// 2. Extracts page safely from the clean hash (#page=4)
-function parsePageNum() {
-    let hash = window.location.hash;
-    if (hash && hash.includes('page=')) {
-        let pageNum = parseInt(hash.split('page=')[1]);
-        return isNaN(pageNum) ? 1 : pageNum;
-    }
-    return 1;
-}
-
-function loadPage() {
-    cleanLegacyUrl();
-    const pNum = parsePageNum();
-    
+function loadPage(p) {
+    const pNum = p ? parseInt(p) : 1; 
     badge.innerText = pNum;
     document.title = "Page " + pNum + " | Upasana Chandrika";
     
-    // Explicit clean root pathing to ensure files fetch perfectly from your pages folder
     fetch("pages/page" + pNum + ".html")
         .then(res => {
-            if(!res.ok) throw new Error('File Not Found');
+            if(!res.ok) throw new Error('Not Found');
             return res.text();
         })
         .then(data => { 
             contentDiv.innerHTML = data; 
             updateNav(pNum); 
-            highlightActivePage(pNum);
             window.scrollTo({top: 0, behavior: 'smooth'}); 
         })
         .catch(() => { 
+            // Graceful fallback UI for incomplete or missing pages
             contentDiv.innerHTML = "<p style='color:#777; padding:40px 10px; font-weight: bold;'>सामग्री लवकरच येत आहे<br><span style='font-size:16px; font-weight:normal; display:block; margin-top:5px;'>(Coming Soon)...</span></p>"; 
             updateNav(pNum); 
-            highlightActivePage(pNum);
         });
 }
 
-// Generate beautiful, secure anchor navigation items
+// Generate pagination
 for (let i = 1; i <= totalPages; i++) {
     const a = document.createElement("a");
-    a.href = "#page=" + i;
+    a.href = "?page=" + i;
     a.innerText = i;
-    a.setAttribute("data-page", i);
+    if (page === i.toString() || (!page && i === 1)) a.className = "active"; 
     paginationDiv.appendChild(a);
-}
-
-function highlightActivePage(pNum) {
-    const allLinks = paginationDiv.querySelectorAll("a");
-    allLinks.forEach(link => {
-        if (link.getAttribute("data-page") == pNum) {
-            link.className = "active";
-            // Centers the active number button smoothly on mobile viewports
-            link.scrollIntoView({ behavior: "smooth", inline: "center" });
-        } else {
-            link.className = "";
-        }
-    });
 }
 
 function updateNav(curr) {
     btmNav.innerHTML = `
-        ${curr > 1 ? `<a href="#page=${curr - 1}" class="nav-btn">मागे (Prev)</a>` : ''}
-        ${curr < totalPages ? `<a href="#page=${curr + 1}" class="nav-btn">पुढे (Next)</a>` : ''}
+        ${curr > 1 ? `<a href="?page=${curr - 1}" class="nav-btn">मागे (Prev)</a>` : ''}
+        ${curr < totalPages ? `<a href="?page=${curr + 1}" class="nav-btn">पुढे (Next)</a>` : ''}
     `;
 }
 
 function sideScroll(d) { paginationDiv.scrollBy({ left: d, behavior: 'smooth' }); }
 
-// Auto-trigger clean page loads whenever the URL hash updates
-window.addEventListener('hashchange', loadPage);
-
-// Initial bootstrap execution
-document.addEventListener("DOMContentLoaded", loadPage);
+document.addEventListener("DOMContentLoaded", () => {
+    loadPage(page);
+    setTimeout(() => {
+        const act = document.querySelector(".active");
+        if (act) act.scrollIntoView({ behavior: "smooth", inline: "center" });
+    }, 300);
+});
 </script>
 </body>
 </html>
