@@ -122,7 +122,7 @@
         .page-text-content h1, .page-text-content h2, .page-text-content h3 { color: #C2185B !important; font-weight: bold !important; margin-bottom: 15px; }
 
         .bottom-nav { display: flex; justify-content: center; gap: 15px; padding-top: 25px; width: 100%; }
-        .nav-btn { background-color: #C2185B; color: white; text-decoration: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 16px; flex: 1; max-width: 160px; text-align: center; }
+        .nav-btn { background-color: #C2185B; color: white; text-decoration: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 16px; flex: 1; max-width: 160px; text-align: center; cursor: pointer; }
         
         .footer { background-color: #0D1B3D; color: white; text-align: center; padding: 25px 15px; width: 100%; margin-top: auto; font-size: 14px; }
 
@@ -180,21 +180,28 @@ const contentDiv = document.getElementById("content");
 const badge = document.getElementById("current-badge");
 const btmNav = document.getElementById("bottom-nav");
 
-// Extracts the page number cleanly from trailing URL segments (e.g., /marathi/2)
+// Read page from URL parameters safely
 function getPageFromUrl() {
-    const segments = window.location.pathname.split('/').filter(Boolean);
-    const lastSegment = segments[segments.length - 1];
-    const pageNum = parseInt(lastSegment);
+    let urlParams = new URLSearchParams(window.location.search);
+    let pageNum = parseInt(urlParams.get("page"));
     return isNaN(pageNum) ? 1 : pageNum;
 }
 
-const currentPage = getPageFromUrl();
+let currentPage = getPageFromUrl();
 
 function loadPage(pNum) {
+    if (pNum < 1) pNum = 1;
+    if (pNum > totalPages) pNum = totalPages;
+    
+    currentPage = pNum;
     badge.innerText = pNum;
     document.title = "Page " + pNum + " | Upasana Chandrika";
     
-    // Grabs relative layout data from your specific pages sub-folder
+    // Smoothly mask the URL to remove "index.html" but retain the page argument safely
+    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname.replace('index.html', '') + '?page=' + pNum;
+    window.history.pushState({ path: cleanUrl }, '', cleanUrl);
+    
+    // Fetch from your pages sub-folder
     fetch("pages/page" + pNum + ".html")
         .then(res => {
             if(!res.ok) throw new Error('Not Found');
@@ -203,38 +210,55 @@ function loadPage(pNum) {
         .then(data => { 
             contentDiv.innerHTML = data; 
             updateNav(pNum); 
+            highlightActivePage(pNum);
             window.scrollTo({top: 0, behavior: 'smooth'}); 
         })
         .catch(() => { 
             contentDiv.innerHTML = "<p style='color:#777; padding:40px 10px; font-weight: bold;'>सामग्री लवकरच येत आहे<br><span style='font-size:16px; font-weight:normal; display:block; margin-top:5px;'>(Coming Soon)...</span></p>"; 
             updateNav(pNum); 
+            highlightActivePage(pNum);
         });
 }
 
-// Generate beautiful clean semantic pagination links
+// Build standard safe numeric button links
 for (let i = 1; i <= totalPages; i++) {
     const a = document.createElement("a");
-    a.href = "./" + i; // Generates clean link relative to current path
+    a.href = "javascript:void(0);";
+    a.setAttribute("data-page", i);
     a.innerText = i;
-    if (currentPage === i) a.className = "active"; 
+    a.onclick = function() { loadPage(i); };
     paginationDiv.appendChild(a);
+}
+
+function highlightActivePage(pNum) {
+    const allLinks = paginationDiv.querySelectorAll("a");
+    allLinks.forEach(link => {
+        if (link.getAttribute("data-page") == pNum) {
+            link.className = "active";
+            link.scrollIntoView({ behavior: "smooth", inline: "center" });
+        } else {
+            link.className = "";
+        }
+    });
 }
 
 function updateNav(curr) {
     btmNav.innerHTML = `
-        ${curr > 1 ? `<a href="./${curr - 1}" class="nav-btn">मागे (Prev)</a>` : ''}
-        ${curr < totalPages ? `<a href="./${curr + 1}" class="nav-btn">पुढे (Next)</a>` : ''}
+        ${curr > 1 ? `<button onclick="loadPage(${curr - 1})" class="nav-btn">मागे (Prev)</button>` : ''}
+        ${curr < totalPages ? `<button onclick="loadPage(${curr + 1})" class="nav-btn">पुढे (Next)</button>` : ''}
     `;
 }
 
 function sideScroll(d) { paginationDiv.scrollBy({ left: d, behavior: 'smooth' }); }
 
+// Back button browser history support
+window.onpopstate = function() {
+    currentPage = getPageFromUrl();
+    loadPage(currentPage);
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     loadPage(currentPage);
-    setTimeout(() => {
-        const act = document.querySelector(".active");
-        if (act) act.scrollIntoView({ behavior: "smooth", inline: "center" });
-    }, 300);
 });
 </script>
 </body>
