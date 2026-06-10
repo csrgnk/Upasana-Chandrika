@@ -122,7 +122,7 @@
         .page-text-content h1, .page-text-content h2, .page-text-content h3 { color: #C2185B !important; font-weight: bold !important; margin-bottom: 15px; }
 
         .bottom-nav { display: flex; justify-content: center; gap: 15px; padding-top: 25px; width: 100%; }
-        .nav-btn { background-color: #C2185B; color: white; text-decoration: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 16px; flex: 1; max-width: 160px; text-align: center; cursor: pointer; }
+        .nav-btn { background-color: #C2185B; color: white; text-decoration: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 16px; flex: 1; max-width: 160px; text-align: center; }
         
         .footer { background-color: #0D1B3D; color: white; text-align: center; padding: 25px 15px; width: 100%; margin-top: auto; font-size: 14px; }
 
@@ -180,31 +180,42 @@ const contentDiv = document.getElementById("content");
 const badge = document.getElementById("current-badge");
 const btmNav = document.getElementById("bottom-nav");
 
-// Read page from URL parameters safely
-function getPageFromUrl() {
-    let urlParams = new URLSearchParams(window.location.search);
-    let pageNum = parseInt(urlParams.get("page"));
-    return isNaN(pageNum) ? 1 : pageNum;
+// 1. Clears out old 'index.html?page=X' format completely if a user lands on it
+function cleanLegacyUrl() {
+    if (window.location.search.includes('page=')) {
+        let urlParams = new URLSearchParams(window.location.search);
+        let legacyPage = urlParams.get("page");
+        if (legacyPage) {
+            // Instantly rewrite to the clean clean hash system
+            window.location.href = window.location.pathname.replace('index.html', '') + "#page=" + legacyPage;
+        }
+    } else if (window.location.pathname.includes('index.html')) {
+        // Just strip index.html if present
+        window.history.replaceState(null, '', window.location.pathname.replace('index.html', '') + window.location.hash);
+    }
 }
 
-let currentPage = getPageFromUrl();
+// 2. Extracts page safely from the clean hash (#page=4)
+function parsePageNum() {
+    let hash = window.location.hash;
+    if (hash && hash.includes('page=')) {
+        let pageNum = parseInt(hash.split('page=')[1]);
+        return isNaN(pageNum) ? 1 : pageNum;
+    }
+    return 1;
+}
 
-function loadPage(pNum) {
-    if (pNum < 1) pNum = 1;
-    if (pNum > totalPages) pNum = totalPages;
+function loadPage() {
+    cleanLegacyUrl();
+    const pNum = parsePageNum();
     
-    currentPage = pNum;
     badge.innerText = pNum;
     document.title = "Page " + pNum + " | Upasana Chandrika";
     
-    // Smoothly mask the URL to remove "index.html" but retain the page argument safely
-    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname.replace('index.html', '') + '?page=' + pNum;
-    window.history.pushState({ path: cleanUrl }, '', cleanUrl);
-    
-    // Fetch from your pages sub-folder
+    // Explicit clean root pathing to ensure files fetch perfectly from your pages folder
     fetch("pages/page" + pNum + ".html")
         .then(res => {
-            if(!res.ok) throw new Error('Not Found');
+            if(!res.ok) throw new Error('File Not Found');
             return res.text();
         })
         .then(data => { 
@@ -220,13 +231,12 @@ function loadPage(pNum) {
         });
 }
 
-// Build standard safe numeric button links
+// Generate beautiful, secure anchor navigation items
 for (let i = 1; i <= totalPages; i++) {
     const a = document.createElement("a");
-    a.href = "javascript:void(0);";
-    a.setAttribute("data-page", i);
+    a.href = "#page=" + i;
     a.innerText = i;
-    a.onclick = function() { loadPage(i); };
+    a.setAttribute("data-page", i);
     paginationDiv.appendChild(a);
 }
 
@@ -235,6 +245,7 @@ function highlightActivePage(pNum) {
     allLinks.forEach(link => {
         if (link.getAttribute("data-page") == pNum) {
             link.className = "active";
+            // Centers the active number button smoothly on mobile viewports
             link.scrollIntoView({ behavior: "smooth", inline: "center" });
         } else {
             link.className = "";
@@ -244,22 +255,19 @@ function highlightActivePage(pNum) {
 
 function updateNav(curr) {
     btmNav.innerHTML = `
-        ${curr > 1 ? `<button onclick="loadPage(${curr - 1})" class="nav-btn">मागे (Prev)</button>` : ''}
-        ${curr < totalPages ? `<button onclick="loadPage(${curr + 1})" class="nav-btn">पुढे (Next)</button>` : ''}
+        ${curr > 1 ? `<a href="#page=${curr - 1}" class="nav-btn">मागे (Prev)</a>` : ''}
+        ${curr < totalPages ? `<a href="#page=${curr + 1}" class="nav-btn">पुढे (Next)</a>` : ''}
     `;
 }
 
 function sideScroll(d) { paginationDiv.scrollBy({ left: d, behavior: 'smooth' }); }
 
-// Back button browser history support
-window.onpopstate = function() {
-    currentPage = getPageFromUrl();
-    loadPage(currentPage);
-};
+// Auto-trigger clean page loads whenever the URL hash updates
+window.addEventListener('hashchange', loadPage);
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadPage(currentPage);
-});
+// Initial bootstrap execution
+document.addEventListener("DOMContentLoaded", loadPage);
 </script>
 </body>
 </html>
+
