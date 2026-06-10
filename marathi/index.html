@@ -12,9 +12,7 @@
     <link rel="apple-touch-icon" href="https://omnnbc.com/assets/images/Omnnbc-new.png">
 
     <style>
-        /* Modern Reset */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
         html, body {
             width: 100%;
             min-height: 100vh;
@@ -23,7 +21,7 @@
             display: flex;
             flex-direction: column;
             align-items: center; 
-            -webkit-text-size-adjust: 100%; /* Prevents iOS font resizing */
+            -webkit-text-size-adjust: 100%;
             overflow-x: hidden;
         }
 
@@ -35,12 +33,11 @@
             display: flex;
             flex-wrap: nowrap;
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             justify-content: flex-start;
         }
         .top-nav-container::-webkit-scrollbar { display: none; }
-
         .top-nav-container a {
             text-decoration: none;
             color: #C2185B;
@@ -87,22 +84,8 @@
             font-size: 18px;
             text-align: center;
         }
-        .scroll-controls { 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            width: 100%; 
-            max-width: 500px; /* Constraints pagination on larger screens */
-        }
-        .numbers-wrapper { 
-            display: flex; 
-            overflow-x: auto; 
-            gap: 8px; 
-            padding: 5px 10px; 
-            flex-grow: 1;
-            scrollbar-width: none; 
-            -webkit-overflow-scrolling: touch;
-        }
+        .scroll-controls { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 500px; }
+        .numbers-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 5px 10px; flex-grow: 1; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         .numbers-wrapper::-webkit-scrollbar { display: none; }
         
         .numbers-wrapper a { 
@@ -118,20 +101,7 @@
             text-align: center;
         }
         .numbers-wrapper a.active { background-color: #C2185B; color: white; }
-        
-        .scroll-btn { 
-            background-color: #C2185B; 
-            color: white; 
-            border: none; 
-            padding: 10px 14px; 
-            border-radius: 4px; 
-            cursor: pointer; 
-            font-weight: bold;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .scroll-btn { background-color: #C2185B; color: white; border: none; padding: 10px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 16px; display: flex; align-items: center; justify-content: center; }
 
         /* ===== Main Content Card ===== */
         .main-content-card {
@@ -143,22 +113,12 @@
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             text-align: center;
-            min-height: 300px; /* Reduced for better small-device handling if content fails to load */
-            box-sizing: border-box;
+            min-height: 300px;
         }
         .badge-pos { display: flex; justify-content: center; margin-top: -50px; margin-bottom: 20px; }
         .round-badge { background-color: #C2185B; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid #F4F7F6; font-weight: bold; font-size: 16px; }
 
-        /* Typography for Dynamic Content */
-        .page-text-content { 
-            font-size: 20px; /* Slightly adjusted for standard readability on smaller phones */
-            color: #3E2723; 
-            line-height: 1.8; 
-            width: 100%; 
-            text-align: center; 
-            white-space: pre-line;
-            word-wrap: break-word; /* Ensures text doesn't spill out */
-        }
+        .page-text-content { font-size: 20px; color: #3E2723; line-height: 1.8; width: 100%; text-align: center; white-space: pre-line; word-wrap: break-word; }
         .page-text-content h1, .page-text-content h2, .page-text-content h3 { color: #C2185B !important; font-weight: bold !important; margin-bottom: 15px; }
 
         .bottom-nav { display: flex; justify-content: center; gap: 15px; padding-top: 25px; width: 100%; }
@@ -166,7 +126,6 @@
         
         .footer { background-color: #0D1B3D; color: white; text-align: center; padding: 25px 15px; width: 100%; margin-top: auto; font-size: 14px; }
 
-        /* Mobile specific adjustments */
         @media (max-width: 480px) {
             .site-title-main { font-size: 18px; }
             .site-title-main span { font-size: 14px !important; }
@@ -176,11 +135,10 @@
         }
     </style>
 </head>
-
 <body>
 
 <nav class="top-nav-container">
-    <a href="./">Home</a>
+    <a href="https://omnnbc.com">Home</a>
     <a href="https://omnnbc.com">Main Site</a>
     <a href="https://csrgnk.github.io/Dasabodha/">Dasabodha</a>
     <a href="https://csrgnk.github.io/manache-shlok/">Manache Shlok</a>
@@ -222,14 +180,21 @@ const contentDiv = document.getElementById("content");
 const badge = document.getElementById("current-badge");
 const btmNav = document.getElementById("bottom-nav");
 
-let urlParams = new URLSearchParams(window.location.search);
-let page = urlParams.get("page");
+// Extracts the page number cleanly from trailing URL segments (e.g., /marathi/2)
+function getPageFromUrl() {
+    const segments = window.location.pathname.split('/').filter(Boolean);
+    const lastSegment = segments[segments.length - 1];
+    const pageNum = parseInt(lastSegment);
+    return isNaN(pageNum) ? 1 : pageNum;
+}
 
-function loadPage(p) {
-    const pNum = p ? parseInt(p) : 1; 
+const currentPage = getPageFromUrl();
+
+function loadPage(pNum) {
     badge.innerText = pNum;
     document.title = "Page " + pNum + " | Upasana Chandrika";
     
+    // Grabs relative layout data from your specific pages sub-folder
     fetch("pages/page" + pNum + ".html")
         .then(res => {
             if(!res.ok) throw new Error('Not Found');
@@ -241,32 +206,31 @@ function loadPage(p) {
             window.scrollTo({top: 0, behavior: 'smooth'}); 
         })
         .catch(() => { 
-            // Graceful fallback UI for incomplete or missing pages
             contentDiv.innerHTML = "<p style='color:#777; padding:40px 10px; font-weight: bold;'>सामग्री लवकरच येत आहे<br><span style='font-size:16px; font-weight:normal; display:block; margin-top:5px;'>(Coming Soon)...</span></p>"; 
             updateNav(pNum); 
         });
 }
 
-// Generate pagination
+// Generate beautiful clean semantic pagination links
 for (let i = 1; i <= totalPages; i++) {
     const a = document.createElement("a");
-    a.href = "?page=" + i;
+    a.href = "./" + i; // Generates clean link relative to current path
     a.innerText = i;
-    if (page === i.toString() || (!page && i === 1)) a.className = "active"; 
+    if (currentPage === i) a.className = "active"; 
     paginationDiv.appendChild(a);
 }
 
 function updateNav(curr) {
     btmNav.innerHTML = `
-        ${curr > 1 ? `<a href="?page=${curr - 1}" class="nav-btn">मागे (Prev)</a>` : ''}
-        ${curr < totalPages ? `<a href="?page=${curr + 1}" class="nav-btn">पुढे (Next)</a>` : ''}
+        ${curr > 1 ? `<a href="./${curr - 1}" class="nav-btn">मागे (Prev)</a>` : ''}
+        ${curr < totalPages ? `<a href="./${curr + 1}" class="nav-btn">पुढे (Next)</a>` : ''}
     `;
 }
 
 function sideScroll(d) { paginationDiv.scrollBy({ left: d, behavior: 'smooth' }); }
 
 document.addEventListener("DOMContentLoaded", () => {
-    loadPage(page);
+    loadPage(currentPage);
     setTimeout(() => {
         const act = document.querySelector(".active");
         if (act) act.scrollIntoView({ behavior: "smooth", inline: "center" });
