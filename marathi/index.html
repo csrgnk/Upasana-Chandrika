@@ -2,9 +2,9 @@
 <html lang="mr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
     
-    <title id="meta-title">उпасना चंद्रिका - नमो नारायणाय</title>
+    <title id="meta-title">उपासना चंद्रिका - नमो नारायणाय</title>
     <meta name="description" content="नमो नारायणाय भक्ती चॅनेलवरून उपासना चंद्रिका भक्तीचे साहित्य वाचा.">
     <meta name="author" content="Sangameshwar">
     
@@ -12,27 +12,30 @@
     <link rel="apple-touch-icon" href="https://omnnbc.com/assets/images/Omnnbc-new.png">
 
     <style>
+        /* Modern Reset */
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         html, body {
             width: 100%;
-            max-width: 100vw;
-            overflow-x: hidden;
+            min-height: 100vh;
             background-color: #F4F7F6;
             font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center; 
+            -webkit-text-size-adjust: 100%; /* Prevents iOS font resizing */
+            overflow-x: hidden;
         }
 
         /* ===== 1. Top Navigation ===== */
         .top-nav-container {
             background-color: #C2185B;
             width: 100%;
-            padding: 12px 5px;
+            padding: 12px 10px;
             display: flex;
             flex-wrap: nowrap;
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
             scrollbar-width: none;
             justify-content: flex-start;
         }
@@ -43,8 +46,8 @@
             color: #C2185B;
             background-color: white;
             font-weight: bold;
-            padding: 8px 18px;
-            margin: 0 6px;
+            padding: 8px 16px;
+            margin-right: 10px;
             border-radius: 5px;
             font-size: 14px;
             white-space: nowrap;
@@ -54,7 +57,7 @@
         /* ===== Header Section ===== */
         .header-container {
             background-color: #FFFDE7;
-            padding: 20px 10px;
+            padding: 20px 15px;
             border-bottom: 4px solid #FFD600;
             width: 100%;
             display: flex;
@@ -62,14 +65,14 @@
             justify-content: center;
             gap: 15px;
         }
-        .header-logo { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #C2185B; }
-        .site-title-main { color: #C2185B; font-size: 22px; text-align: left; line-height: 1.1; }
+        .header-logo { width: 60px; height: 60px; border-radius: 50%; border: 2px solid #C2185B; object-fit: cover; }
+        .site-title-main { color: #C2185B; font-size: 22px; text-align: left; line-height: 1.2; }
 
         /* ===== Pagination Bar ===== */
         .page-nav-section {
             width: 100%;
             background: white;
-            padding: 20px 0;
+            padding: 20px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -77,41 +80,100 @@
         .book-name-badge {
             background-color: #C2185B;
             color: white;
-            padding: 10px 25px;
+            padding: 8px 25px;
             border-radius: 30px;
             margin-bottom: 15px;
             font-weight: bold;
             font-size: 18px;
+            text-align: center;
         }
-        .scroll-controls { display: flex; align-items: center; justify-content: center; width: 100%; }
-        .numbers-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 10px; max-width: 75%; scrollbar-width: none; }
+        .scroll-controls { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            width: 100%; 
+            max-width: 500px; /* Constraints pagination on larger screens */
+        }
+        .numbers-wrapper { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 8px; 
+            padding: 5px 10px; 
+            flex-grow: 1;
+            scrollbar-width: none; 
+            -webkit-overflow-scrolling: touch;
+        }
         .numbers-wrapper::-webkit-scrollbar { display: none; }
-        .numbers-wrapper a { text-decoration: none; color: #C2185B; border: 1px solid #C2185B; padding: 8px 15px; border-radius: 4px; flex-shrink: 0; font-weight: bold; }
+        
+        .numbers-wrapper a { 
+            text-decoration: none; 
+            color: #C2185B; 
+            border: 1px solid #C2185B; 
+            padding: 8px 14px; 
+            border-radius: 4px; 
+            flex-shrink: 0; 
+            font-weight: bold; 
+            font-size: 14px;
+            min-width: 40px;
+            text-align: center;
+        }
         .numbers-wrapper a.active { background-color: #C2185B; color: white; }
-        .scroll-btn { background-color: #C2185B; color: white; border: none; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        .scroll-btn { 
+            background-color: #C2185B; 
+            color: white; 
+            border: none; 
+            padding: 10px 14px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         /* ===== Main Content Card ===== */
         .main-content-card {
-            width: 94%; 
-            max-width: 850px; 
+            width: 92%; 
+            max-width: 800px; 
             margin: 40px auto;
             background-color: #FFFDE7;
-            padding: 25px;
+            padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             text-align: center;
-            min-height: 400px;
+            min-height: 300px; /* Reduced for better small-device handling if content fails to load */
+            box-sizing: border-box;
         }
-        .badge-pos { display: flex; justify-content: center; margin-top: -55px; margin-bottom: 25px; }
-        .round-badge { background-color: #C2185B; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid #F4F7F6; font-weight: bold; }
+        .badge-pos { display: flex; justify-content: center; margin-top: -50px; margin-bottom: 20px; }
+        .round-badge { background-color: #C2185B; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid #F4F7F6; font-weight: bold; font-size: 16px; }
 
-        /* Global Typography for Dynamic Content */
-        .page-text-content { font-size: 22px; color: #3E2723; line-height: 1.9; width: 100%; text-align: center; white-space: pre-line; }
+        /* Typography for Dynamic Content */
+        .page-text-content { 
+            font-size: 20px; /* Slightly adjusted for standard readability on smaller phones */
+            color: #3E2723; 
+            line-height: 1.8; 
+            width: 100%; 
+            text-align: center; 
+            white-space: pre-line;
+            word-wrap: break-word; /* Ensures text doesn't spill out */
+        }
         .page-text-content h1, .page-text-content h2, .page-text-content h3 { color: #C2185B !important; font-weight: bold !important; margin-bottom: 15px; }
 
-        .bottom-nav { display: flex; justify-content: center; gap: 20px; padding-top: 25px; }
-        .nav-btn { background-color: #C2185B; color: white; text-decoration: none; padding: 12px 25px; border-radius: 25px; font-weight: bold; }
-        .footer { background-color: #0D1B3D; color: white; text-align: center; padding: 30px; width: 100%; margin-top: auto; }
+        .bottom-nav { display: flex; justify-content: center; gap: 15px; padding-top: 25px; width: 100%; }
+        .nav-btn { background-color: #C2185B; color: white; text-decoration: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 16px; flex: 1; max-width: 160px; text-align: center; }
+        
+        .footer { background-color: #0D1B3D; color: white; text-align: center; padding: 25px 15px; width: 100%; margin-top: auto; font-size: 14px; }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 480px) {
+            .site-title-main { font-size: 18px; }
+            .site-title-main span { font-size: 14px !important; }
+            .header-logo { width: 50px; height: 50px; }
+            .page-text-content { font-size: 18px; line-height: 1.7; }
+            .main-content-card { margin: 35px auto 25px auto; padding: 15px; }
+        }
     </style>
 </head>
 
@@ -145,7 +207,7 @@
     <div class="badge-pos">
         <div class="round-badge" id="current-badge">1</div>
     </div>
-    <div id="content" class="page-text-content">Loading...</div>
+    <div id="content" class="page-text-content">सामग्री लोड होत आहे... (Loading...)</div>
     <div class="bottom-nav" id="bottom-nav"></div>
 </main>
 
@@ -164,24 +226,32 @@ let urlParams = new URLSearchParams(window.location.search);
 let page = urlParams.get("page");
 
 function loadPage(p) {
-    // URL లో ఏ పేజీ మెన్షన్ చేయకపోతే ఆటోమేటిక్‌గా ఒకటో పేజీ (Page 1) లోడ్ అవుతుంది
     const pNum = p ? parseInt(p) : 1; 
     badge.innerText = pNum;
     document.title = "Page " + pNum + " | Upasana Chandrika";
     
-    // /marathi/pages/ ఫోల్డర్ లోని html ఫైల్ ని ఫెచ్ చేస్తుంది
     fetch("pages/page" + pNum + ".html")
-        .then(res => res.text())
-        .then(data => { contentDiv.innerHTML = data; updateNav(pNum); window.scrollTo(0,0); })
-        .catch(() => { contentDiv.innerHTML = "<p style='color:#777;padding:20px;'>सामग्री लवकरच येत आहे (Coming Soon)...</p>"; updateNav(pNum); });
+        .then(res => {
+            if(!res.ok) throw new Error('Not Found');
+            return res.text();
+        })
+        .then(data => { 
+            contentDiv.innerHTML = data; 
+            updateNav(pNum); 
+            window.scrollTo({top: 0, behavior: 'smooth'}); 
+        })
+        .catch(() => { 
+            // Graceful fallback UI for incomplete or missing pages
+            contentDiv.innerHTML = "<p style='color:#777; padding:40px 10px; font-weight: bold;'>सामग्री लवकरच येत आहे<br><span style='font-size:16px; font-weight:normal; display:block; margin-top:5px;'>(Coming Soon)...</span></p>"; 
+            updateNav(pNum); 
+        });
 }
 
-// 1 నుండి 143 వరకు గల పేజీల నెవిగేషన్ నంబర్స్ బిల్డ్ చేయడం
+// Generate pagination
 for (let i = 1; i <= totalPages; i++) {
     const a = document.createElement("a");
     a.href = "?page=" + i;
     a.innerText = i;
-    // ఒకవేళ పారామీటర్ లేకపోతే 1 ని యాక్టివ్‌గా చూపిస్తుంది
     if (page === i.toString() || (!page && i === 1)) a.className = "active"; 
     paginationDiv.appendChild(a);
 }
@@ -200,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const act = document.querySelector(".active");
         if (act) act.scrollIntoView({ behavior: "smooth", inline: "center" });
-    }, 500);
+    }, 300);
 });
 </script>
 </body>
